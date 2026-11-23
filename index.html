@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6fb">
+  <title>車禍後，先做什麼？｜生活法律小教室</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20243a;
+      --muted: #737991;
+      --paper: #fff;
+      --canvas: #f5f6fb;
+      --line: #e8eaf2;
+      --purple: #6658d3;
+      --purple-soft: #eeecff;
+      --teal: #188d84;
+      --teal-soft: #e3f6f2;
+      --orange: #e78b43;
+      --orange-soft: #fff1e2;
+      --blue: #4283c4;
+      --blue-soft: #e8f3ff;
+      --shadow: 0 24px 70px rgba(37, 43, 76, .10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(102, 88, 211, .08), transparent 25%),
+        radial-gradient(circle at 88% 82%, rgba(24, 141, 132, .08), transparent 24%),
+        var(--canvas);
+      font-family: "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .deck {
+      width: min(1120px, 100%);
+      min-height: min(720px, calc(100vh - 56px));
+      display: flex;
+      flex-direction: column;
+      padding: 26px 34px 22px;
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 28px;
+      background: rgba(255,255,255,.72);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar, .bottom-bar, .controls, .brand, .counter {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar, .bottom-bar { justify-content: space-between; gap: 18px; }
+
+    .brand { gap: 11px; color: var(--muted); font-size: .88rem; font-weight: 650; }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--purple);
+      font-weight: 800;
+      letter-spacing: -.05em;
+    }
+
+    .counter { gap: 6px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .counter strong { color: var(--ink); font-size: 1.05rem; }
+
+    .progress-track {
+      height: 5px;
+      margin: 20px 0 24px;
+      overflow: hidden;
+      border-radius: 99px;
+      background: #e9eaf2;
+    }
+
+    .progress-fill {
+      width: 12.5%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--purple), #9d8df6);
+      transition: width .35s ease;
+    }
+
+    .stage { flex: 1; display: grid; }
+
+    .slide {
+      display: none;
+      min-height: 470px;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: stretch;
+      gap: 26px;
+      animation: arrive .35s ease both;
+    }
+
+    .slide.active { display: grid; }
+    @keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .copy, .visual {
+      min-width: 0;
+      border-radius: 22px;
+    }
+
+    .copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(26px, 5vw, 58px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      align-self: flex-start;
+      margin: 0 0 22px;
+      padding: 8px 12px;
+      border-radius: 99px;
+      color: var(--purple);
+      background: var(--purple-soft);
+      font-size: .78rem;
+      font-weight: 750;
+      letter-spacing: .04em;
+    }
+
+    h1, h2 { margin: 0; letter-spacing: -.045em; line-height: 1.18; }
+    h1 { max-width: 620px; font-size: clamp(2.6rem, 5vw, 4.65rem); }
+    h2 { font-size: clamp(2rem, 3.5vw, 3.25rem); }
+
+    .lead {
+      max-width: 560px;
+      margin: 22px 0 0;
+      color: #555d77;
+      font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+      line-height: 1.85;
+      letter-spacing: .015em;
+    }
+
+    .title-slide .lead { max-width: 440px; font-size: 1.2rem; }
+    .visual {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 330px;
+      overflow: hidden;
+      padding: 28px;
+      background: linear-gradient(145deg, #f0efff, #f7f5ff 55%, #eef8f7);
+    }
+
+    .visual::before, .visual::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.48);
+    }
+
+    .visual::before { top: -95px; right: -54px; }
+    .visual::after { bottom: -132px; left: -68px; width: 270px; height: 270px; }
+    .visual-content { position: relative; z-index: 1; width: min(390px, 100%); }
+
+    .visual-title {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-align: center;
+    }
+
+    .steps { display: grid; gap: 12px; }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 16px;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 8px 24px rgba(39,44,79,.06);
+      font-weight: 750;
+    }
+
+    .step-num {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: var(--purple);
+      background: var(--purple-soft);
+      font-size: .85rem;
+    }
+
+    .step:nth-child(2) .step-num { color: var(--teal); background: var(--teal-soft); }
+    .step:nth-child(3) .step-num { color: var(--orange); background: var(--orange-soft); }
+    .connector { width: 2px; height: 10px; margin: -12px 0 -12px 32px; background: #d7d4f5; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .mini-card {
+      min-height: 154px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 18px;
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 8px 24px rgba(39,44,79,.06);
+    }
+
+    .mini-card .symbol {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: var(--purple);
+      background: var(--purple-soft);
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .mini-card:nth-child(2) .symbol { color: var(--teal); background: var(--teal-soft); }
+    .mini-card strong { font-size: 1.08rem; }
+    .mini-card span { color: var(--muted); font-size: .84rem; line-height: 1.5; }
+
+    .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .time-card {
+      min-height: 136px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 8px;
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 16px;
+      background: rgba(255,255,255,.9);
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(39,44,79,.05);
+    }
+
+    .time-card strong { color: var(--purple); font-size: 1.28rem; }
+    .time-card span { color: var(--muted); font-size: .82rem; line-height: 1.4; }
+
+    .balance {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .balance::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 18%;
+      right: 18%;
+      height: 3px;
+      background: #c9c4f4;
+      transform: rotate(-7deg);
+    }
+
+    .balance-item {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      gap: 12px;
+      min-height: 140px;
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 20px;
+      background: rgba(255,255,255,.9);
+      font-weight: 750;
+      box-shadow: 0 8px 24px rgba(39,44,79,.06);
+    }
+
+    .balance-item span { color: var(--purple); font-size: 1.8rem; }
+    .balance-item:nth-child(2) span { color: var(--teal); }
+
+    .bottom-bar { margin-top: 20px; color: var(--muted); font-size: .84rem; }
+    .hint { display: flex; align-items: center; gap: 8px; }
+    .key {
+      display: inline-grid;
+      place-items: center;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 7px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: #515770;
+      font-size: .8rem;
+      font-weight: 750;
+      box-shadow: 0 2px 0 #e7e8ef;
+    }
+
+    .controls { gap: 9px; }
+    .nav-button {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+
+    .nav-button:hover:not(:disabled) { transform: translateY(-2px); color: #fff; background: var(--purple); }
+    .nav-button:disabled { opacity: .42; cursor: not-allowed; }
+    .nav-button:focus-visible { outline: 3px solid #b7afff; outline-offset: 3px; }
+    .nav-button svg { width: 18px; height: 18px; }
+
+    @media (max-width: 760px) {
+      body { display: block; padding: 12px; }
+      .deck { min-height: calc(100vh - 24px); padding: 18px 16px 14px; border-radius: 22px; }
+      .progress-track { margin: 16px 0; }
+      .slide, .slide.active { grid-template-columns: 1fr; gap: 14px; }
+      .slide { min-height: 0; }
+      .copy { min-height: 260px; padding: 27px 24px; }
+      .visual { min-height: 265px; padding: 22px; }
+      .eyebrow { margin-bottom: 16px; }
+      .lead { margin-top: 15px; line-height: 1.7; }
+      .bottom-bar { margin-top: 15px; }
+      .hint { font-size: .75rem; }
+    }
+
+    @media (max-width: 420px) {
+      .brand { font-size: .78rem; }
+      .brand-mark { width: 32px; height: 32px; }
+      .hint .key { display: none; }
+      .copy { min-height: 240px; }
+      .time-card { min-height: 120px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="車禍後處理教學簡報">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">法</span>
+        <span>生活法律小教室</span>
+      </div>
+      <div class="counter" aria-live="polite">
+        <strong id="current-number">01</strong>
+        <span>/</span>
+        <span id="total-number">08</span>
+      </div>
+    </header>
+
+    <div class="progress-track" role="progressbar" aria-label="簡報進度" aria-valuemin="1" aria-valuemax="8" aria-valuenow="1" id="progress">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <section class="stage" aria-live="polite">
+      <article class="slide active title-slide" aria-hidden="false">
+        <div class="copy">
+          <p class="eyebrow">車禍處理入門 · 01</p>
+          <h1>車禍後，<br>先做什麼？</h1>
+          <p class="lead">車禍後先記住三件事：顧安全、留紀錄、再談責任。</p>
+        </div>
+        <div class="visual" aria-label="顧安全、留紀錄、談責任三個步驟">
+          <div class="visual-content">
+            <p class="visual-title">三件先記住的事</p>
+            <div class="steps">
+              <div class="step"><span class="step-num">01</span><span>顧安全</span></div>
+              <div class="step"><span class="step-num">02</span><span>留紀錄</span></div>
+              <div class="step"><span class="step-num">03</span><span>再談責任</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">先顧安全 · 02</p>
+          <h2>先顧安全</h2>
+          <p class="lead">先設警示、救助傷者並通知警方。有人受傷時，通常要報警；無人受傷且雙方當場和解，才可不通知警方。</p>
+        </div>
+        <div class="visual" aria-label="先設警示，再救助傷者並通知警方">
+          <div class="visual-content">
+            <p class="visual-title">處理順序</p>
+            <div class="steps">
+              <div class="step"><span class="step-num">01</span><span>設置警示</span></div>
+              <div class="step"><span class="step-num">02</span><span>救助傷者</span></div>
+              <div class="step"><span class="step-num">03</span><span>通知警方</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">保留現場 · 03</p>
+          <h2>保留現場</h2>
+          <p class="lead">現場痕跡先保留。若無人受傷且車能行駛，先拍照或標記位置，再把車移到不擋路處。</p>
+        </div>
+        <div class="visual" aria-label="先保留現場，拍照或標記後再移車">
+          <div class="visual-content">
+            <p class="visual-title">記住先後順序</p>
+            <div class="steps">
+              <div class="step"><span class="step-num">01</span><span>保留痕跡</span></div>
+              <div class="step"><span class="step-num">02</span><span>拍照或標記</span></div>
+              <div class="step"><span class="step-num">03</span><span>移到不擋路處</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">留下紀錄 · 04</p>
+          <h2>留下紀錄</h2>
+          <p class="lead">記下現場、車損、散落物與證人資料。事故滿 7 天後可申請現場圖和照片；滿 30 天後可申請警方初步分析表。</p>
+        </div>
+        <div class="visual" aria-label="事故現場立即記錄，7天及30天後可申請不同資料">
+          <div class="visual-content">
+            <p class="visual-title">記錄與申請時間</p>
+            <div class="timeline">
+              <div class="time-card"><strong>現在</strong><span>記錄現場<br>與證人</span></div>
+              <div class="time-card"><strong>7 天</strong><span>現場圖<br>和照片</span></div>
+              <div class="time-card"><strong>30 天</strong><span>警方初步<br>分析表</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">釐清責任 · 05</p>
+          <h2>兩種責任，<br>兩個問題</h2>
+          <p class="lead">刑事看行為是否犯罪；民事看損失由誰賠、賠多少。疏忽造成他人受傷可能涉及刑事責任，是否成立要看事實與證據。</p>
+        </div>
+        <div class="visual" aria-label="刑事責任看是否犯罪，民事責任看賠償">
+          <div class="visual-content">
+            <p class="visual-title">分清兩個問題</p>
+            <div class="split">
+              <div class="mini-card"><span class="symbol">?</span><strong>刑事</strong><span>行為是否犯罪？</span></div>
+              <div class="mini-card"><span class="symbol">$</span><strong>民事</strong><span>損失由誰賠？</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">賠償概念 · 06</p>
+          <h2>賠償看<br>實際損失</h2>
+          <p class="lead">賠償會看實際支出、工作收入損失等。若受傷者自己也有疏忽，法院可能依雙方責任調整賠償金額。</p>
+        </div>
+        <div class="visual" aria-label="衡量實際損失與雙方責任，再看賠償金額">
+          <div class="visual-content">
+            <p class="visual-title">賠償考量</p>
+            <div class="balance">
+              <div class="balance-item"><span>＋</span><strong>實際損失</strong></div>
+              <div class="balance-item"><span>↔</span><strong>雙方責任</strong></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">保險與補償 · 07</p>
+          <h2>車險與補償</h2>
+          <p class="lead">依法必須投保的車險可提供醫療、身體功能受損或死亡給付。車輛未投保或無法查明時，受害人可能向特別補償基金（提供補償的基金）申請，仍須符合資格。</p>
+        </div>
+        <div class="visual" aria-label="先確認車險，未投保或車輛不明時再確認補償基金資格">
+          <div class="visual-content">
+            <p class="visual-title">可以先確認</p>
+            <div class="steps">
+              <div class="step"><span class="step-num">01</span><span>依法投保的車險</span></div>
+              <div class="step"><span class="step-num">02</span><span>是否符合給付條件</span></div>
+              <div class="step"><span class="step-num">03</span><span>補償基金適用資格</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-hidden="true">
+        <div class="copy">
+          <p class="eyebrow">爭議處理 · 08</p>
+          <h2>雙方談不攏時</h2>
+          <p class="lead">可向鄉鎮市公所申請調解，由委員協助雙方協商。民事調解經法院確認後，效果和法院作出的最終判決一樣；談不成仍可另走法律程序。</p>
+        </div>
+        <div class="visual" aria-label="雙方透過委員協商，談成後送法院確認">
+          <div class="visual-content">
+            <p class="visual-title">協商的路徑</p>
+            <div class="steps">
+              <div class="step"><span class="step-num">A</span><span>雙方提出想法</span></div>
+              <div class="step"><span class="step-num">↔</span><span>委員協助協商</span></div>
+              <div class="step"><span class="step-num">B</span><span>談成後送法院確認</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="bottom-bar">
+      <div class="hint"><span class="key">←</span><span class="key">→</span><span>使用左右鍵切換</span></div>
+      <div class="controls">
+        <button class="nav-button" id="previous" type="button" aria-label="上一頁" disabled>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18 9 12l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="nav-button" id="next" type="button" aria-label="下一頁">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const currentNumber = document.getElementById("current-number");
+      const progress = document.getElementById("progress");
+      const progressFill = document.getElementById("progress-fill");
+      const previous = document.getElementById("previous");
+      const next = document.getElementById("next");
+      let current = 0;
+
+      function showSlide(index) {
+        current = Math.max(0, Math.min(index, slides.length - 1));
+        slides.forEach(function (slide, i) {
+          const active = i === current;
+          slide.classList.toggle("active", active);
+          slide.setAttribute("aria-hidden", String(!active));
+        });
+        currentNumber.textContent = String(current + 1).padStart(2, "0");
+        progress.setAttribute("aria-valuenow", String(current + 1));
+        progressFill.style.width = ((current + 1) / slides.length * 100) + "%";
+        previous.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+      }
+
+      previous.addEventListener("click", function () { showSlide(current - 1); });
+      next.addEventListener("click", function () { showSlide(current + 1); });
+      document.addEventListener("keydown", function (event) {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          showSlide(current + 1);
+        } else if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          showSlide(current - 1);
+        }
+      });
+
+      showSlide(0);
+    }());
+  </script>
+</body>
+</html>
